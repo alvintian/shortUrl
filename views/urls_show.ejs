@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include partials/_header %>
+</head>
+<body>
+       <table class="table">
+        <thead>
+          <tr>
+            <th>long</th>
+            <th>short url</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%=longURL%></td>
+            <td><%=shortURL%></td>
+          </tr>
+          <tr>
+<!--            <td colSpan="2">
+              <a href="/beers/new">New Beer</a>
+            </td>-->
+          </tr>
+        </tbody>
+      </table>  
+    <form action="/urls/<%=shortURL%>" method="POST" style="margin:150px;">
+      <label for="longURL">Update an URL:</label>
+      <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
+      <input type="submit" value="Update">
+        </form>
+      </body>
+</html>
