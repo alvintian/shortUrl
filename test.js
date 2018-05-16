@@ -1,12 +1,25 @@
-var express = require('express');
-var app = express()
+const users = {
+	"userRandomID": {
+		id: "userRandomID",
+		email: "user@example.com",
+		password: "purple-monkey-dinosaur"
+	},
+	"user2RandomID": {
+		id: "user2RandomID",
+		email: "user2@example.com",
+		password: "dishwasher-funk"
+	}
+}
+var email = 'gfdsasd@yahoo.ca';
+var password = 'dingling';
 
-// GET method route
-app.get('/', function (req, res) {
-  res.send('GET request to the homepage')
-})
-
-// POST method route
-app.post('/', function (req, res) {
-  res.send('POST request to the homepage')
-})
+function tes(){
+	let userName = "dd";
+	users[userName] = {
+		id: userName,
+		emails: email,
+		passwords: password
+	}
+}
+tes();
+console.log(users);
