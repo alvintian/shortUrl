@@ -23,3 +23,5 @@ function tes(){
 }
 tes();
 console.log(users);
+
+npm i bcrypt@2.0.0 --save

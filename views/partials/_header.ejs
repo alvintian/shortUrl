@@ -1,22 +1,14 @@
-<!DOCTYPE html>
-<nav class="navbar navbar-default" role="navigation">
-	<div class="container-fluid">
+<div id="nav"><ul class="menu">
 			<li><a href="/urls">Home</a></li>
-			<li><a href="/urls/new">Create new link</a></li>
-      <li><a href="/register">Register</a></li>
    <% if(user===""||typeof(user)==="undefined"){ %>
+       <li><a href="/register">Register</a></li>
       <li><a href="/login">Login</a></li>
-	</div>
-<h1></h1>
-       <% } else{ %>
-
-       <form action="/logout" method="POST" style="margin:50px;">
-      <input type="submit" value="Logout">
-        </form>
-        
-
-
+    </ul></div>
+         <% } else{ %>
+      <li><a href="/urls/new">New link</a></li>
+       <li><form action="/logout" method="POST">
+      <input type="submit" value="Logout" style="padding: 25px 40px;font-size:24px">
+        </form></li></ul>       
        </div>
-    <h1><%=user.email%></h1>
+    <h1>Welcome: <%=user.email%></h1>
         <% } %>
-</nav>

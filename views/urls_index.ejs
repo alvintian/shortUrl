@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<% include partials/_header %>
-</head>
+<head><link rel="stylesheet" href="/style.css"></head>
 <body>
-  <form method="POST" action="/urls/9sm5xK/delete">
+  <% include partials/_header %>
          <table class="table">
         <thead>
           <tr>
-            <th>long Name</th>
-            <th>short name</th>
+            <th>User Id</th>
+            <th>Short url</th>
+            <th>Long url</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          <% for(var x in urls){ %>
+          <% for(let id in urls){ %>
+            <% for(let short in urls[id]){ %>
+            <% if(id==ids){%>
           <tr>
-            <td><%= urls[x] %></td>
-            <td><%= x %></td>
-            <td><a href="/urls/<%=x%>">Edit</a></td>
-            <td><button type="submit" value="delete" name="delete">Delete</button></td>    
-          </tr>
-          <% } %>
-          <tr>
-<!--            <td colSpan="2">
-              <a href="/beers/new">New Beer</a>
-            </td>-->
-          </tr>
+            <td><%=id%></td>
+            <td><%=short%></td>
+            <td><%=urls[id][short]%></td>
+              <td><a href="/urls/<%=short%>">Edit</a></td>
+          <form method="POST" action="/urls/<%=short%>">
+            <input type="hidden" name="_method" value="DELETE">
+             <td><button type="submit" value="delete" name="delete">Delete</button></td> 
+      </form> 
+    </tr>
+          <% } }} %>
         </tbody>
       </table>
-      </form>   <!-- Add your EJS code here -->
+
 </body>
 </html>

@@ -1,0 +1,53 @@
+@charset "utf-8";
+/* CSS Document */
+
+#nav {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+  	border:solid;
+	border-color:#00C;
+border-top:5px;
+border-left:5px;
+border-right:5px;
+
+
+}
+
+ #nav ul li {
+    float: left;
+    list-style: none;
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+
+#nav ul li a {
+    display: block;
+    height: 66px;
+    width: 200px;
+    text-align: center;
+    padding-top: 15px;
+    background: url("tabs.png") no-repeat 0 0;
+	font-size:35px; 
+    text-decoration: none;
+
+
+}
+
+#nav ul li a:hover {
+    background: url("tabs.png") no-repeat 0 -80px;
+}
+body {
+    background-color: #FFC;
+}
+table, td, th {
+    border: 1px solid black;
+    height: 50px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 70%;
+}
