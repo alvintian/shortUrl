@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({
 app.use(methodOverride(function(req, res) {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     // look in urlencoded POST bodies and delete it
-    var method = req.body._method
+    let method = req.body._method
     delete req.body._method
     return method
   }
@@ -56,9 +56,9 @@ app.listen(PORT, () => {
 
 app.get("/", (req, res) => {
   if (typeof(req.session.user_id) === "undefined") {
-    res.redirect('http://localhost:8080/login');
+    res.redirect('/login');
   } else {
-    res.redirect('http://localhost:8080/urls/');
+    res.redirect('/urls/');
   }
 });
 app.get("/urls", (req, res) => {
@@ -78,7 +78,7 @@ app.get("/hello", (req, res) => {
 });
 app.get("/urls/new", (req, res) => {
   if (typeof(req.session.user_id) === "undefined") {
-    res.redirect('http://localhost:8080/login');
+    res.redirect('/login');
   } else {
     let templateVars = {
       user: users[req.session.user_id],
@@ -112,11 +112,11 @@ app.get("/urls/:id", (req, res) => {
 app.post("/urls/:id", (req, res) => {
   for (let x in urlDatabase) {
     if (urlDatabase[x][req.params.id]) {
-      urlDatabase[x][req.body.longURL] = urlDatabase[x][req.params.id];
-      delete urlDatabase[x][req.params.id];
+      //      urlDatabase[x][req.body.longURL] = urlDatabase[x][req.params.id];
+      urlDatabase[x][req.params.id] = req.body.longURL;
     }
   }
-  res.redirect('http://localhost:8080/urls/' + req.body.longURL);
+  res.redirect(req.get('referer'));
 });
 app.delete("/urls/:id", (req, res) => {
   for (let x in urlDatabase) {
@@ -124,12 +124,12 @@ app.delete("/urls/:id", (req, res) => {
       delete urlDatabase[x][req.params.id];
     }
   }
-  res.redirect('http://localhost:8080/urls/');
+  res.redirect('/urls/');
 });
 app.post("/urls", (req, res, next) => {
-  var shortURL = generateRandomString();
+  let shortURL = generateRandomString();
   urlDatabase[req.session.user_id][shortURL] = req.body.longURL;
-  res.redirect('http://localhost:8080/urls/' + shortURL);
+  res.redirect('/urls/' + shortURL);
 });
 
 app.get("/u/:shortURL", (req, res) => {
@@ -142,7 +142,11 @@ app.get("/u/:shortURL", (req, res) => {
       req.session.views = (req.session.views || 0) + 1
         //i could not figure out how to make total view count by *unique* visitors.
         //      req.session.cookie = (req.session.cookie || 0) + 1
-      res.redirect(longURL);
+      if (longURL.startsWith("http://") || longURL.startsWith("https://")) {
+        res.redirect(longURL);
+      } else {
+        res.redirect("https://" + longURL);
+      }
     }
   }
   if (bool === false) {
@@ -154,7 +158,7 @@ app.listen(3000)
 
 app.get("/login", (req, res) => {
   if (typeof(req.session.user_id) !== "undefined") {
-    res.redirect('http://localhost:8080/urls/');
+    res.redirect('/urls/');
   } else {
     let templateVars = {
       user: users[req.session.user_id],
@@ -169,7 +173,7 @@ app.post("/login", (req, res) => {
   for (let x in users) {
     if (users[x].email === req.body.email && bcrypt.compareSync(req.body.password, users[x].password)) {
       req.session.user_id = x;
-      res.redirect('http://localhost:8080/urls/');
+      res.redirect('/urls/');
       bool = true;
     }
   }
@@ -179,11 +183,11 @@ app.post("/login", (req, res) => {
 });
 app.post("/logout", (req, res) => {
   req.session = null;
-  res.redirect('http://localhost:8080/urls/');
+  res.redirect('/urls/');
 });
 app.get("/register", (req, res) => {
   if (typeof(req.session.user_id) !== "undefined") {
-    res.redirect('http://localhost:8080/urls/');
+    res.redirect('/urls/');
   } else {
     let templateVars = {
       user: users[req.session.user_id],
@@ -214,13 +218,13 @@ app.post("/register", (req, res) => {
     };
     urlDatabase[user_id] = {};
     req.session.user_id = user_id;
-    res.redirect('http://localhost:8080/urls/');
+    res.redirect('/urls/');
   }
 });
-var generateRandomString = function() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for (var i = 0; i < 6; i++)
+let generateRandomString = function() {
+  let text = "";
+  let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < 6; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return text;
 }
